@@ -3,7 +3,7 @@
 #include <dirent.h>
 #include <string.h>
 
-void next_source( char * pattern, char * fn )
+void next_source( const char * pattern, char * fn )
 {
     static DIR *dir=NULL;
     struct dirent *ent;
@@ -14,8 +14,8 @@ void next_source( char * pattern, char * fn )
         if (dir == NULL)
         {
             /* could not open directory */
-            perror ("");
-            return EXIT_FAILURE;
+            perror ("could not open directory");
+            return;
         }
     }
     /* grab all the files and directories within directory */
@@ -39,7 +39,7 @@ int main()
 {
     const char source_root_fn[] = "S0";
     const char dest_root_fn[] = "D0";
-    const max_copies = 999;
+    const unsigned int max_copies = 999;
 
     char source_fn[13];
     char dest_fn[13];
@@ -49,6 +49,9 @@ int main()
     {
         printf("%s\n", source_fn);
         next_source(source_root_fn ,source_fn);
+        // copy the file here
+
+
     } while (strlen(source_fn) > 0);
 
     return 0;
