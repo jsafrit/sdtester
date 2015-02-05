@@ -1,2 +1,4 @@
 root.zip
 root/*
+bin/*
+obj/*

@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1423163565 source:c:\code\codeblocks\sdtester\main.c
+	<stdio.h>
+	<stdlib.h>
+	<dirent.h>
+	<string.h>
+
