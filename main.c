@@ -3,7 +3,7 @@
 #include <dirent.h>
 #include <string.h>
 
-void next_source( char * fn )
+void next_source( char * pattern, char * fn )
 {
     DIR *dir;
     struct dirent *ent;
@@ -13,7 +13,10 @@ void next_source( char * fn )
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL)
         {
-            printf ("%s\n", ent->d_name);
+            //printf ("%s\n", ent->d_name);
+            // Does this file match the pattern
+            if (strncmp(pattern, ent->d_name, 2) != 0)
+                continue;
             strcpy(fn, ent->d_name);
             break;
         }
@@ -34,7 +37,7 @@ int main()
     char source_fn[13];
     char dest_fn[13];
 
-    next_source(source_fn);
+    next_source(source_root_fn ,source_fn);
     printf("%s\n", source_fn);
 
     printf("Hello world!\n");
