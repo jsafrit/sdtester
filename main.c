@@ -5,28 +5,35 @@
 
 void next_source( char * pattern, char * fn )
 {
-    DIR *dir;
+    static DIR *dir=NULL;
     struct dirent *ent;
 
-    if ((dir = opendir (".\\root\\")) != NULL)
+    if (dir == NULL)
     {
-        /* print all the files and directories within directory */
-        while ((ent = readdir (dir)) != NULL)
+        dir = opendir (".\\root\\");
+        if (dir == NULL)
         {
-            //printf ("%s\n", ent->d_name);
-            // Does this file match the pattern
-            if (strncmp(pattern, ent->d_name, 2) != 0)
-                continue;
-            strcpy(fn, ent->d_name);
-            break;
+            /* could not open directory */
+            perror ("");
+            return EXIT_FAILURE;
         }
-        closedir (dir);
-    } else {
-        /* could not open directory */
-        perror ("");
-        return EXIT_FAILURE;
     }
+    /* grab all the files and directories within directory */
+    while ((ent = readdir (dir)) != NULL)
+    {
+        //printf ("%s\n", ent->d_name);
+        // Does this file match the pattern
+        if (strncmp(pattern, ent->d_name, 2) != 0)
+            continue;
+        strcpy(fn, ent->d_name);
+        return;
+        break;
+    }
+    rewinddir(dir);
+    //closedir (dir);
+    *fn = '\0';
 }
+
 
 int main()
 {
@@ -38,8 +45,11 @@ int main()
     char dest_fn[13];
 
     next_source(source_root_fn ,source_fn);
-    printf("%s\n", source_fn);
+    do
+    {
+        printf("%s\n", source_fn);
+        next_source(source_root_fn ,source_fn);
+    } while (strlen(source_fn) > 0);
 
-    printf("Hello world!\n");
     return 0;
 }
