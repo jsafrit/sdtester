@@ -14,7 +14,7 @@ void next_source( char * fn )
         while ((ent = readdir (dir)) != NULL)
         {
             printf ("%s\n", ent->d_name);
-            strcpy(fn, &(ent->d_name));
+            strcpy(fn, ent->d_name);
             break;
         }
         closedir (dir);
@@ -32,11 +32,10 @@ int main()
     const max_copies = 999;
 
     char source_fn[13];
-    char * p_source_fn = source_fn;
     char dest_fn[13];
 
-    next_source(p_source_fn);
-    printf("%s\n", p_source_fn);
+    next_source(source_fn);
+    printf("%s\n", source_fn);
 
     printf("Hello world!\n");
     return 0;
