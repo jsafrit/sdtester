@@ -39,10 +39,20 @@ void next_source( const char * pattern, char * fn )
 
 void make_dest_filename( unsigned int count, char * dest_fn)
 {
-    char counter[5];
+    char counter[4] = {'0','0','0','0'};
     unsigned int j;
 
-    sprintf(counter, "%04d", count);
+    if (count > 9999)
+        return;
+
+    counter[0] = (count / 1000) + '0';
+    count = count % 1000;
+    counter[1] = (count / 100) + '0';
+    count = count % 100;
+    counter[2] = (count / 10) + '0';
+    count = count % 10;
+    counter[3] = (count) + '0';
+
     for (j=0; j<4; j++)
         dest_fn[j+4] = counter[j];
     printf("Dest Filename: %s\n", dest_fn);
